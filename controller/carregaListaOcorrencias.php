@@ -14,7 +14,6 @@ header('Content-type: xml');
             <id><?php echo $o->getId();?></id>
             <horario><?php echo  $o->getHorario();?></horario>
             <tipo><?php echo $o->getTipo();?></tipo>
-            <id><?php echo $o->getId();?></id>
         </ocorrencia>
     <?php
     }

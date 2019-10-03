@@ -28,7 +28,7 @@ class OcorrenciaController {
         return $this->dao->selectOcorrencias();
     }
     
-    function buscarOcorrenciaPorId($id) : Ocorrencia {
+    function buscarOcorrenciaPorId($id) {
         return $this->dao->selectOcorrenciaById($id);
     }
 }

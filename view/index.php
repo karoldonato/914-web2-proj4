@@ -37,7 +37,7 @@
                     document.getElementById("lista_ocorrencias").innerHTML = body;
                 }
             };
-            xhttp.open("GET", "../controller/carregaOcorrencias.php", true);
+            xhttp.open("GET", "../controller/carregaListaOcorrencias.php", true);
             xhttp.send();
         </script>
 

@@ -34,15 +34,15 @@ class OcorrenciaDAO {
         return $ocorrencias;
     }
     
-    function selectOcorrenciaById($id) : Ocorrencia {
+    function selectOcorrenciaById($id) {
         $stmt = $this->conexao->prepare("SELECT * FROM ocorrencias WHERE id = :id");
         $stmt->bindValue(":id", $id);
         $stmt->execute();
-        $row = $stmt->fetch();
-        $ocorrencia = new Ocorrencia($row['id'], $row['tipo'],
-            $row['descricao'], $row['horario'], $row['coordenadaX'],
-            $row['coordenadaY']);
-        
-        return $ocorrencia;
+        if($row = $stmt->fetch())
+            return new Ocorrencia($row['id'], $row['tipo'],
+                $row['descricao'], $row['horario'], $row['coordenadaX'],
+                $row['coordenadaY']);
+        else
+            return null;
     }
 }

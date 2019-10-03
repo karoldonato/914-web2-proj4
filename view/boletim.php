@@ -11,35 +11,62 @@
         <title></title>
     </head>
     <body class="container">
-        <?php
-            require_once '../controller/OcorrenciaController.php';
-            require_once '../model/Ocorrencia.php';
-            $ocorrencia = (new OcorrenciaController())->buscarOcorrenciaPorId($_GET['id']);
-        ?>
-        
+        <div class="row">
+            <label class="col-auto" for="input_id">Digite aqui o id desejado:</label>
+            <input type="number" onchange="change();" class="col form-control" id="input_id" name="input_id" placeholder="Digite aqui o id desejado" value="">
+            <a onclick="change();" class="col-auto btn btn-primary text-white">Buscar</a>
+        </div>
         <h3 class="border-bottom">Boletim de Ocorrência</h3>
-        <div>
-            <span class="font-weight-bold">Id: </span> <?php echo $ocorrencia->getId(); ?><br>
-            <span class="font-weight-bold">Descrição: </span> <?php echo $ocorrencia->getDescricao(); ?><br>
-            <span class="font-weight-bold">Data/Hora: </span><?php echo $ocorrencia->getHorario(); ?><br>
-            <span class="font-weight-bold">Tipo: </span><?php echo $ocorrencia->getTipo() ?><br>
+        <div id="erro">
+            <h1>O id informado não existe!</h1>
+        </div>
+        <div id="content">
+            <span class="font-weight-bold">Id: </span><span id="sid"></span><br>
+            <span class="font-weight-bold">Descrição: </span><span id="sdesc"></span><br>
+            <span class="font-weight-bold">Data/Hora: </span><span id="shorario"></span><br>
+            <span class="font-weight-bold">Tipo: </span><span id="stipo"></span><br>
         </div>
         
-        <h5 class="border-bottom">Anexos</h5>
-        <div>
-        <?php
-            $path = "../anexos/";
-            $diretorio = dir($path);
-            $diretorio -> read();
-            $diretorio -> read();
-            while($arquivo = $diretorio -> read()){
-                if(fnmatch($ocorrencia->getId() . "_*", $arquivo)) {?>
-                    <a href="<?php echo $path.$arquivo ?> " target="_blank"><?php echo $arquivo ?></a><br />
-                <?php
+
+        <script>
+            
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    var xmlDoc = this.responseXML;
+
+                    var ocorrencia = xmlDoc.getElementsByTagName("ocorrencia");
+
+                    if(ocorrencia[0].getElementsByTagName("existe")[0].childNodes[0].nodeValue == 'true') {
+                        document.getElementById("erro").style.display = "none"; 
+                        document.getElementById("content").style.display = "block"; 
+                        document.getElementById("sid").innerHTML = ocorrencia[0].getElementsByTagName("id")[0].childNodes[0].nodeValue;
+                        document.getElementById("sdesc").innerHTML = ocorrencia[0].getElementsByTagName("descricao")[0].childNodes[0].nodeValue;
+                        document.getElementById("shorario").innerHTML = ocorrencia[0].getElementsByTagName("horario")[0].childNodes[0].nodeValue;
+                        document.getElementById("stipo").innerHTML = ocorrencia[0].getElementsByTagName("tipo")[0].childNodes[0].nodeValue;
+                        document.getElementById("input_id").value = ocorrencia[0].getElementsByTagName("id")[0].childNodes[0].nodeValue;
+                    }
+                    else {
+                        document.getElementById("content").style.display = "none"; 
+                        document.getElementById("erro").style.display = "block"; 
+                    }
                 }
+            };
+            function change() {
+                enviar(document.getElementById("input_id").value);
             }
-            $diretorio -> close();
-        ?>
+            function enviar(id) {
+                xhttp.open("GET", "../controller/carregaOcorrenciaById.php?id=" + id, true);
+                xhttp.send();
+            }
+            enviar(new URL(window.location.href).searchParams.get("id"));
+
+        </script>
+        
+        
+        <div>
+
+            <?php require 'anexos.php' ?>
         </div>
                     
         <a href="./index.php" class="btn btn-secondary">Home</a>
