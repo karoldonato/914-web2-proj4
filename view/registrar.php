@@ -21,7 +21,7 @@
   </head>
   <body class="container">
     <h1 class="text-center">Registrar Boletim de Ocorrência</h1>
-    <form action="../controller/OcorrenciaController.php" method="POST" enctype="multipart/form-data">
+    <form id="form" enctype="multipart/form-data">
         <div class="form-group">
             <label for="tipo">Tipo da ocorrência:</label>
             <select class="form-control form-control-lg" name="tipo">

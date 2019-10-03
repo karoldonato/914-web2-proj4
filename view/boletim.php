@@ -8,7 +8,6 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-        <title></title>
     </head>
     <body class="container">
         <div class="row">
@@ -58,16 +57,15 @@
             function enviar(id) {
                 xhttp.open("GET", "../controller/carregaOcorrenciaById.php?id=" + id, true);
                 xhttp.send();
+                document.getElementById("iframe").src = "./anexos.php?id=" + id;
             }
             enviar(new URL(window.location.href).searchParams.get("id"));
 
         </script>
         
+        <iframe src="./anexos.php?id=" id="iframe" class="w-100 border">
+        </iframe> 
         
-        <div>
-
-            <?php require 'anexos.php' ?>
-        </div>
                     
         <a href="./index.php" class="btn btn-secondary">Home</a>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
